@@ -437,6 +437,8 @@ function ProfileTab() {
   )
 }
 
+const CATEGORIES = ['All', 'Remote', 'Design', 'Tech', 'Finance', 'Marketing']
+
 /* ── Main JobFeedScreen ───────────────────────────────── */
 export default function JobFeedScreen({ go: _go }: { go: (s: Screen) => void }) {
   const [jobs]                        = useState(mockJobs)
@@ -445,6 +447,7 @@ export default function JobFeedScreen({ go: _go }: { go: (s: Screen) => void }) 
   const [savedIds, setSavedIds]       = useState<Set<string>>(new Set())
   const [appliedTitle, setApplied]    = useState<string | null>(null)
   const [detailJob, setDetailJob]     = useState<Job | null>(null)
+  const [category, setCategory]       = useState('All')
 
   const handleSwipeRight = (job: Job) => {
     setCurrentIndex(p => p + 1)
@@ -470,49 +473,73 @@ export default function JobFeedScreen({ go: _go }: { go: (s: Screen) => void }) 
   return (
     <div className="flex flex-col h-full bg-white relative">
       {/* Top bar */}
-      <div className="px-5 pt-[52px] pb-0 flex-shrink-0">
+      <div className="pt-[52px] flex-shrink-0">
         {activeTab === 'swipe' ? (
-          <>
-            {/* Search row */}
-            <div className="flex gap-2 items-center">
-              <div className="flex-1 bg-[#f6f6f6] border border-[#e8e8e8] rounded-full flex items-center gap-[10px] px-4 py-[13px]">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <circle cx="11" cy="11" r="8" stroke="#b0b0b0" strokeWidth="1.8" />
-                  <path d="M21 21l-4.35-4.35" stroke="#b0b0b0" strokeWidth="1.8" strokeLinecap="round" />
-                </svg>
-                <span className="text-[#b0b0b0] text-[13px] tracking-[-0.39px]">Search jobs, companies…</span>
+          <div className="px-5">
+            {/* Greeting row */}
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-bold text-[22px] tracking-[-0.66px] text-black leading-none">
+                  Good morning, Ade 👋
+                </p>
+                <div className="flex items-center gap-[6px] mt-[5px]">
+                  <div className="w-[7px] h-[7px] rounded-full bg-green-500" />
+                  <p className="text-[#969696] text-[13px] tracking-[-0.39px]">
+                    {Math.max(0, jobs.length - currentIndex)} new matches today
+                  </p>
+                </div>
               </div>
-              <button className="w-[48px] h-[48px] bg-[#f6f6f6] border border-[#e8e8e8] rounded-full flex items-center justify-center flex-shrink-0">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <div className="flex items-center gap-2">
+                <button className="w-[40px] h-[40px] bg-[#f6f6f6] border border-[#e8e8e8] rounded-full flex items-center justify-center relative">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="#606060" strokeWidth="1.8" strokeLinecap="round" />
+                    <path d="M13.73 21a2 2 0 01-3.46 0" stroke="#606060" strokeWidth="1.8" strokeLinecap="round" />
+                  </svg>
+                  <span className="absolute top-[8px] right-[8px] w-[8px] h-[8px] bg-brand rounded-full border-2 border-white" />
+                </button>
+                <div className="w-[40px] h-[40px] rounded-full bg-brand flex items-center justify-center">
+                  <span className="text-white text-[12px] font-bold tracking-[-0.36px]">AO</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Search bar */}
+            <div className="flex gap-2 items-center mt-4">
+              <div className="flex-1 bg-[#f6f6f6] border border-[#e8e8e8] rounded-full flex items-center gap-[9px] px-4 py-[12px]">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                  <circle cx="11" cy="11" r="8" stroke="#b8b8b8" strokeWidth="1.8" />
+                  <path d="M21 21l-4.35-4.35" stroke="#b8b8b8" strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
+                <span className="text-[#c0c0c0] text-[13px] tracking-[-0.39px]">Search jobs or companies…</span>
+              </div>
+              <button className="w-[44px] h-[44px] bg-[#f6f6f6] border border-[#e8e8e8] rounded-full flex items-center justify-center flex-shrink-0">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
                   <line x1="4" y1="6" x2="20" y2="6" stroke="#606060" strokeWidth="1.8" strokeLinecap="round" />
                   <line x1="4" y1="12" x2="16" y2="12" stroke="#606060" strokeWidth="1.8" strokeLinecap="round" />
                   <line x1="4" y1="18" x2="12" y2="18" stroke="#606060" strokeWidth="1.8" strokeLinecap="round" />
                 </svg>
               </button>
-              <button className="w-[48px] h-[48px] bg-[#f6f6f6] border border-[#e8e8e8] rounded-full flex items-center justify-center flex-shrink-0 relative">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                  <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="#606060" strokeWidth="1.8" strokeLinecap="round" />
-                  <path d="M13.73 21a2 2 0 01-3.46 0" stroke="#606060" strokeWidth="1.8" strokeLinecap="round" />
-                </svg>
-                <span className="absolute top-[10px] right-[10px] w-[8px] h-[8px] bg-brand rounded-full border-2 border-white" />
-              </button>
             </div>
 
-            {/* Greeting */}
-            <div className="flex items-center justify-between mt-4 mb-1">
-              <div>
-                <p className="font-bold text-[20px] tracking-[-0.6px] text-black leading-none">Good morning, Ade 👋</p>
-                <p className="text-[#969696] text-[13px] tracking-[-0.39px] mt-1">
-                  {jobs.length - currentIndex} jobs waiting for you
-                </p>
-              </div>
-              <div className="w-[40px] h-[40px] rounded-full bg-brand flex items-center justify-center">
-                <span className="text-white text-[13px] font-bold">AO</span>
-              </div>
+            {/* Category chips */}
+            <div className="flex gap-2 mt-3 overflow-x-auto no-scrollbar pb-1 -mx-5 px-5">
+              {CATEGORIES.map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => setCategory(cat)}
+                  className={`flex-shrink-0 px-4 py-[7px] rounded-full text-[12px] tracking-[-0.36px] transition-colors ${
+                    category === cat
+                      ? 'bg-brand text-white'
+                      : 'bg-[#f6f6f6] border border-[#e8e8e8] text-[#606060]'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
             </div>
-          </>
+          </div>
         ) : (
-          <div className="flex items-center justify-between pb-3">
+          <div className="px-5 flex items-center justify-between pb-3">
             <h1 className="font-bold text-[22px] tracking-[-0.66px] text-black">{tabTitle[activeTab]}</h1>
             {activeTab === 'messages' && (
               <button className="bg-[#f6f6f6] border border-[#e8e8e8] rounded-full px-3 py-2">
