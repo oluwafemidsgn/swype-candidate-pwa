@@ -163,55 +163,101 @@ function SwipeTab({
   appliedTitle: string | null
 }) {
   const visible = jobs.slice(currentIndex, currentIndex + 3)
+  const remaining = jobs.length - currentIndex
 
   return (
-    <div className="flex-1 relative flex items-center justify-center overflow-hidden">
-      {visible.length === 0 ? (
-        <div className="flex flex-col items-center text-center px-8 gap-4">
-          <div className="w-16 h-16 rounded-full bg-[#f6f6f6] flex items-center justify-center">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-              <path d="M22 11.08V12a10 10 0 11-5.93-9.14" stroke="#c0c0c0" strokeWidth="1.8" strokeLinecap="round" />
-              <path d="M22 4L12 14.01l-3-3" stroke="#c0c0c0" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
-          <p className="font-bold text-[22px] text-black tracking-[-0.66px]">All caught up!</p>
-          <p className="text-[#969696] text-[14px] tracking-[-0.42px] leading-relaxed">
-            You&apos;ve reviewed all available jobs. Check back later for new matches.
-          </p>
-        </div>
-      ) : (
-        visible.slice().reverse().map((job, revIdx) => {
-          const stackIdx = visible.length - 1 - revIdx
-          return (
-            <JobCard
-              key={job.id}
-              job={job}
-              isTop={stackIdx === 0}
-              stackIndex={stackIdx}
-              isSaved={savedIds.has(job.id)}
-              onSwipeLeft={onSwipeLeft}
-              onSwipeRight={() => onSwipeRight(job)}
-              onSave={() => onSave(job.id)}
-              onTap={() => onTap(job)}
+    <div className="flex-1 flex flex-col overflow-hidden" style={{ minHeight: 0 }}>
+      {/* Stack label + counter */}
+      <div className="flex items-center justify-between px-5 pt-1 pb-2 flex-shrink-0">
+        <span className="text-[#969696] text-[12px] tracking-[-0.36px]">
+          {remaining > 0 ? `${remaining} job${remaining !== 1 ? 's' : ''} in your feed` : 'No more jobs'}
+        </span>
+        {/* Stack dots */}
+        <div className="flex items-center gap-[5px]">
+          {[0, 1, 2].map(i => (
+            <div
+              key={i}
+              className="rounded-full transition-all"
+              style={{
+                width: i === 0 ? 16 : 6,
+                height: 6,
+                background: i === 0 ? '#0f65ef' : '#e0e0e0',
+              }}
             />
-          )
-        })
-      )}
+          ))}
+        </div>
+      </div>
 
-      {/* Applied toast */}
-      {appliedTitle && (
-        <div
-          className="absolute bottom-6 left-1/2 animate-toast flex items-center gap-3 bg-white border border-[#e8e8e8] rounded-full px-4 py-3 shadow-lg"
-          style={{ transform: 'translateX(-50%)', zIndex: 20, minWidth: 220 }}
-        >
-          <div className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M5 12l5 5 9-10" stroke="#22c55e" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+      {/* Card area */}
+      <div className="flex-1 relative flex items-center justify-center" style={{ minHeight: 0 }}>
+        {visible.length === 0 ? (
+          <div className="flex flex-col items-center text-center px-8 gap-4">
+            <div className="w-16 h-16 rounded-full bg-[#f6f6f6] flex items-center justify-center">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <path d="M22 11.08V12a10 10 0 11-5.93-9.14" stroke="#c0c0c0" strokeWidth="1.8" strokeLinecap="round" />
+                <path d="M22 4L12 14.01l-3-3" stroke="#c0c0c0" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+            <p className="font-bold text-[22px] text-black tracking-[-0.66px]">All caught up!</p>
+            <p className="text-[#969696] text-[14px] tracking-[-0.42px] leading-relaxed">
+              You&apos;ve reviewed all available jobs. Check back later for new matches.
+            </p>
           </div>
-          <div>
-            <p className="text-black text-[13px] tracking-[-0.39px] font-normal leading-none">Applied!</p>
-            <p className="text-[#969696] text-[11px] tracking-[-0.33px] mt-[2px] truncate max-w-[160px]">{appliedTitle}</p>
+        ) : (
+          visible.slice().reverse().map((job, revIdx) => {
+            const stackIdx = visible.length - 1 - revIdx
+            return (
+              <JobCard
+                key={job.id}
+                job={job}
+                isTop={stackIdx === 0}
+                stackIndex={stackIdx}
+                isSaved={savedIds.has(job.id)}
+                onSwipeLeft={onSwipeLeft}
+                onSwipeRight={() => onSwipeRight(job)}
+                onSave={() => onSave(job.id)}
+                onTap={() => onTap(job)}
+              />
+            )
+          })
+        )}
+
+        {/* Applied toast */}
+        {appliedTitle && (
+          <div
+            className="absolute bottom-4 left-1/2 animate-toast flex items-center gap-3 bg-white border border-[#e8e8e8] rounded-full px-4 py-[10px] shadow-lg"
+            style={{ transform: 'translateX(-50%)', zIndex: 20, minWidth: 200 }}
+          >
+            <div className="w-7 h-7 rounded-full bg-green-50 flex items-center justify-center flex-shrink-0">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12l5 5 9-10" stroke="#22c55e" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-black text-[13px] tracking-[-0.39px] leading-none">Applied!</p>
+              <p className="text-[#969696] text-[11px] tracking-[-0.33px] mt-[2px] truncate max-w-[150px]">{appliedTitle}</p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Swipe hint */}
+      {visible.length > 0 && (
+        <div className="flex-shrink-0 flex items-center justify-center gap-4 py-2">
+          <div className="flex items-center gap-[5px] text-[#d0d0d0]">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M19 12H5M5 12l7-7M5 12l7 7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <span className="text-[11px] tracking-[-0.33px]">Pass</span>
+          </div>
+          <div className="w-1 h-1 rounded-full bg-[#e8e8e8]" />
+          <span className="text-[#d0d0d0] text-[11px] tracking-[-0.33px]">Tap to view details</span>
+          <div className="w-1 h-1 rounded-full bg-[#e8e8e8]" />
+          <div className="flex items-center gap-[5px] text-[#d0d0d0]">
+            <span className="text-[11px] tracking-[-0.33px]">Apply</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14M14 5l7 7-7 7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </div>
         </div>
       )}
@@ -476,61 +522,61 @@ export default function JobFeedScreen({ go: _go }: { go: (s: Screen) => void }) 
       <div className="pt-[52px] flex-shrink-0">
         {activeTab === 'swipe' ? (
           <div className="px-5">
-            {/* Greeting row */}
+            {/* Top row: greeting + icons */}
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-bold text-[22px] tracking-[-0.66px] text-black leading-none">
+                <p className="font-bold text-[20px] tracking-[-0.6px] text-black leading-none">
                   Good morning, Ade 👋
                 </p>
-                <div className="flex items-center gap-[6px] mt-[5px]">
-                  <div className="w-[7px] h-[7px] rounded-full bg-green-500" />
-                  <p className="text-[#969696] text-[13px] tracking-[-0.39px]">
+                <div className="flex items-center gap-[5px] mt-[4px]">
+                  <div className="w-[6px] h-[6px] rounded-full bg-green-500" />
+                  <p className="text-[#b0b0b0] text-[12px] tracking-[-0.36px]">
                     {Math.max(0, jobs.length - currentIndex)} new matches today
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <button className="w-[40px] h-[40px] bg-[#f6f6f6] border border-[#e8e8e8] rounded-full flex items-center justify-center relative">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <div className="flex items-center gap-[8px]">
+                <button className="w-[38px] h-[38px] bg-[#f6f6f6] border border-[#ebebeb] rounded-full flex items-center justify-center relative">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
                     <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="#606060" strokeWidth="1.8" strokeLinecap="round" />
                     <path d="M13.73 21a2 2 0 01-3.46 0" stroke="#606060" strokeWidth="1.8" strokeLinecap="round" />
                   </svg>
-                  <span className="absolute top-[8px] right-[8px] w-[8px] h-[8px] bg-brand rounded-full border-2 border-white" />
+                  <span className="absolute top-[7px] right-[7px] w-[7px] h-[7px] bg-brand rounded-full border-[1.5px] border-white" />
                 </button>
-                <div className="w-[40px] h-[40px] rounded-full bg-brand flex items-center justify-center">
-                  <span className="text-white text-[12px] font-bold tracking-[-0.36px]">AO</span>
+                <div className="w-[38px] h-[38px] rounded-full bg-brand flex items-center justify-center" style={{ boxShadow: '0 2px 8px rgba(15,101,239,0.3)' }}>
+                  <span className="text-white text-[12px] font-bold">AO</span>
                 </div>
               </div>
             </div>
 
             {/* Search bar */}
-            <div className="flex gap-2 items-center mt-4">
-              <div className="flex-1 bg-[#f6f6f6] border border-[#e8e8e8] rounded-full flex items-center gap-[9px] px-4 py-[12px]">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-                  <circle cx="11" cy="11" r="8" stroke="#b8b8b8" strokeWidth="1.8" />
-                  <path d="M21 21l-4.35-4.35" stroke="#b8b8b8" strokeWidth="1.8" strokeLinecap="round" />
+            <div className="flex gap-2 mt-3">
+              <div className="flex-1 bg-[#f7f7f7] border border-[#ebebeb] rounded-full flex items-center gap-[8px] px-4 py-[10px]">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                  <circle cx="11" cy="11" r="8" stroke="#c0c0c0" strokeWidth="2" />
+                  <path d="M21 21l-4.35-4.35" stroke="#c0c0c0" strokeWidth="2" strokeLinecap="round" />
                 </svg>
-                <span className="text-[#c0c0c0] text-[13px] tracking-[-0.39px]">Search jobs or companies…</span>
+                <span className="text-[#c8c8c8] text-[13px] tracking-[-0.39px]">Search jobs or companies…</span>
               </div>
-              <button className="w-[44px] h-[44px] bg-[#f6f6f6] border border-[#e8e8e8] rounded-full flex items-center justify-center flex-shrink-0">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
-                  <line x1="4" y1="6" x2="20" y2="6" stroke="#606060" strokeWidth="1.8" strokeLinecap="round" />
-                  <line x1="4" y1="12" x2="16" y2="12" stroke="#606060" strokeWidth="1.8" strokeLinecap="round" />
-                  <line x1="4" y1="18" x2="12" y2="18" stroke="#606060" strokeWidth="1.8" strokeLinecap="round" />
+              <button className="w-[42px] h-[42px] bg-[#f7f7f7] border border-[#ebebeb] rounded-full flex items-center justify-center flex-shrink-0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <line x1="4" y1="6" x2="20" y2="6" stroke="#606060" strokeWidth="2" strokeLinecap="round" />
+                  <line x1="4" y1="12" x2="15" y2="12" stroke="#606060" strokeWidth="2" strokeLinecap="round" />
+                  <line x1="4" y1="18" x2="11" y2="18" stroke="#606060" strokeWidth="2" strokeLinecap="round" />
                 </svg>
               </button>
             </div>
 
             {/* Category chips */}
-            <div className="flex gap-2 mt-3 overflow-x-auto no-scrollbar pb-1 -mx-5 px-5">
+            <div className="flex gap-[7px] mt-3 overflow-x-auto no-scrollbar pb-[2px] -mx-5 px-5">
               {CATEGORIES.map(cat => (
                 <button
                   key={cat}
                   onClick={() => setCategory(cat)}
-                  className={`flex-shrink-0 px-4 py-[7px] rounded-full text-[12px] tracking-[-0.36px] transition-colors ${
+                  className={`flex-shrink-0 px-[14px] py-[6px] rounded-full text-[12px] tracking-[-0.36px] font-normal transition-colors ${
                     category === cat
                       ? 'bg-brand text-white'
-                      : 'bg-[#f6f6f6] border border-[#e8e8e8] text-[#606060]'
+                      : 'bg-[#f7f7f7] border border-[#ebebeb] text-[#606060]'
                   }`}
                 >
                   {cat}
