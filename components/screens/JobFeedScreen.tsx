@@ -1,148 +1,83 @@
 'use client'
 import { useState } from 'react'
-import { SlidersHorizontal, Bell, X, Star, Heart, Flame } from 'lucide-react'
-import SwipeCard from '../ui/SwipeCard'
+import JobCard from '../ui/JobCard'
 import BottomTabBar from '../ui/BottomTabBar'
 import { mockJobs } from '@/lib/mock-data'
 import type { Screen } from '@/lib/types'
 
-const FILTERS = ['All', 'Full-time', 'Remote', 'Lagos', 'Entry Level']
+type TabId = 'swipe' | 'saved' | 'messages' | 'profile'
 
-export default function JobFeedScreen({ go }: { go: (s: Screen) => void }) {
+export default function JobFeedScreen({ go: _go }: { go: (s: Screen) => void }) {
   const [jobs, setJobs] = useState(mockJobs)
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [activeFilter, setActiveFilter] = useState('All')
-  const [swipedRight, setSwipedRight] = useState(0)
+  const [activeTab, setActiveTab] = useState<TabId>('swipe')
 
   const visibleJobs = jobs.slice(currentIndex, currentIndex + 3)
 
-  const handleSwipeLeft = () => {
-    setCurrentIndex(prev => prev + 1)
-  }
-
-  const handleSwipeRight = () => {
-    setSwipedRight(prev => prev + 1)
-    setCurrentIndex(prev => prev + 1)
-    if (swipedRight + 1 >= 1) {
-      setTimeout(() => go('match'), 300)
-    }
-  }
-
-  const handlePass = () => {
-    setCurrentIndex(prev => prev + 1)
-  }
-
-  const handleInterested = () => {
-    handleSwipeRight()
-  }
-
-  const isEmpty = currentIndex >= jobs.length
+  const next = () => setCurrentIndex(p => p + 1)
 
   return (
-    <div className="flex flex-col h-full bg-dark text-white">
+    <div className="flex flex-col h-full bg-white">
       {/* Top bar */}
-      <div className="flex-shrink-0 pt-safe">
-        <div className="flex items-center justify-between px-5 py-3">
-          <button className="w-10 h-10 flex items-center justify-center rounded-full bg-dark-2 border border-[#2a2a2a]">
-            <SlidersHorizontal size={18} className="text-[#888]" />
-          </button>
-
-          {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-brand flex items-center justify-center">
-              <svg width="14" height="14" viewBox="0 0 44 44" fill="none">
-                <path d="M22 6C22 6 10 16 10 25C10 31.627 15.373 37 22 37C28.627 37 34 31.627 34 25C34 16 22 6 22 6Z" fill="white" />
-              </svg>
-            </div>
-            <span className="text-white font-bold text-lg tracking-[-0.5px]">Swype</span>
+      <div className="px-6 pt-[56px] pb-0 flex flex-col gap-6">
+        {/* Search + icons */}
+        <div className="flex gap-2 items-center h-[56px]">
+          <div className="flex-1 bg-[#f6f6f6] border border-[#ddd] rounded-full flex items-center gap-[10px] px-3 py-4">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="8" stroke="#969696" strokeWidth="1.8" />
+              <path d="M21 21l-4.35-4.35" stroke="#969696" strokeWidth="1.8" strokeLinecap="round" />
+            </svg>
+            <span className="text-[#969696] text-[12px] tracking-[-0.36px] font-normal">Search</span>
           </div>
-
-          <button className="w-10 h-10 flex items-center justify-center rounded-full bg-dark-2 border border-[#2a2a2a] relative">
-            <Bell size={18} className="text-[#888]" />
-            <span className="absolute top-2 right-2.5 w-1.5 h-1.5 bg-brand rounded-full" />
+          <button className="w-[56px] h-[56px] bg-[#f6f6f6] border border-[#ddd] rounded-full flex items-center justify-center">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <line x1="4" y1="6" x2="20" y2="6" stroke="#606060" strokeWidth="1.8" strokeLinecap="round" />
+              <line x1="4" y1="12" x2="16" y2="12" stroke="#606060" strokeWidth="1.8" strokeLinecap="round" />
+              <line x1="4" y1="18" x2="12" y2="18" stroke="#606060" strokeWidth="1.8" strokeLinecap="round" />
+            </svg>
+          </button>
+          <button className="w-[56px] h-[56px] bg-[#f6f6f6] border border-[#ddd] rounded-full flex items-center justify-center relative">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="#606060" strokeWidth="1.8" strokeLinecap="round" />
+              <path d="M13.73 21a2 2 0 0 1-3.46 0" stroke="#606060" strokeWidth="1.8" strokeLinecap="round" />
+            </svg>
+            <span className="absolute top-2 right-2 w-2.5 h-2.5 bg-brand rounded-full border-2 border-white" />
           </button>
         </div>
 
-        {/* Filter chips */}
-        <div className="flex gap-2 px-5 pb-3 overflow-x-auto no-scrollbar">
-          {FILTERS.map(f => (
-            <button
-              key={f}
-              onClick={() => setActiveFilter(f)}
-              className={`flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                activeFilter === f
-                  ? 'bg-brand text-white'
-                  : 'bg-dark-3 text-[#888] border border-[#333]'
-              }`}
-            >
-              {f}
-            </button>
-          ))}
+        {/* Greeting */}
+        <div className="flex flex-col gap-2">
+          <p className="font-bold text-[20px] text-black tracking-[-0.6px] leading-none">Good morning Ade</p>
+          <p className="text-[#606060] text-[14px] tracking-[-0.42px] leading-[1.4]">Lets get the application started.</p>
         </div>
       </div>
 
       {/* Card stack */}
       <div className="flex-1 relative flex items-center justify-center overflow-hidden">
-        {isEmpty ? (
-          <div className="flex flex-col items-center gap-4 px-10 text-center">
-            <div className="w-16 h-16 rounded-full bg-dark-2 flex items-center justify-center">
-              <Flame size={28} className="text-[#444]" />
-            </div>
-            <h3 className="text-white font-semibold text-lg">You&apos;re all caught up!</h3>
-            <p className="text-[#666] text-sm leading-relaxed">Check back later for fresh opportunities, or upgrade to Swype+ for unlimited swipes.</p>
-            <button
-              onClick={() => go('premium')}
-              className="bg-brand text-white px-6 py-3 rounded-2xl text-sm font-semibold mt-2 active:scale-95 transition-transform"
-            >
-              Upgrade to Swype+
-            </button>
+        {visibleJobs.length === 0 ? (
+          <div className="text-center px-8">
+            <p className="font-bold text-[22px] text-black tracking-[-0.6px]">You&apos;re all caught up!</p>
+            <p className="text-[#606060] text-[15px] tracking-[-0.45px] mt-3 leading-relaxed">Check back later for new opportunities.</p>
           </div>
         ) : (
-          visibleJobs
-            .slice()
-            .reverse()
-            .map((job, revIdx) => {
-              const stackIndex = visibleJobs.length - 1 - revIdx
-              return (
-                <SwipeCard
-                  key={job.id}
-                  job={job}
-                  isTop={stackIndex === 0}
-                  stackIndex={stackIndex}
-                  onSwipeLeft={handleSwipeLeft}
-                  onSwipeRight={handleSwipeRight}
-                  onClick={() => go('job-detail')}
-                />
-              )
-            })
+          visibleJobs.slice().reverse().map((job, revIdx) => {
+            const stackIdx = visibleJobs.length - 1 - revIdx
+            return (
+              <JobCard
+                key={job.id}
+                job={job}
+                isTop={stackIdx === 0}
+                stackIndex={stackIdx}
+                onSwipeLeft={next}
+                onSwipeRight={next}
+              />
+            )
+          })
         )}
       </div>
 
-      {/* Action buttons */}
-      {!isEmpty && (
-        <div className="flex-shrink-0 flex items-center justify-center gap-5 py-4">
-          <button
-            onClick={handlePass}
-            className="w-[52px] h-[52px] rounded-full bg-dark-2 border border-[#333] flex items-center justify-center active:scale-90 transition-transform shadow-lg"
-          >
-            <X size={22} className="text-red-400" />
-          </button>
-          <button
-            onClick={() => {}}
-            className="w-[52px] h-[52px] rounded-full bg-dark-2 border border-yellow-500/40 flex items-center justify-center active:scale-90 transition-transform shadow-lg"
-          >
-            <Star size={22} className="text-yellow-400 fill-yellow-400" />
-          </button>
-          <button
-            onClick={handleInterested}
-            className="w-[52px] h-[52px] rounded-full bg-dark-2 border border-green-500/40 flex items-center justify-center active:scale-90 transition-transform shadow-lg"
-          >
-            <Heart size={22} className="text-green-400 fill-green-400" />
-          </button>
-        </div>
-      )}
-
-      <BottomTabBar screen="job-feed" go={go} />
+      {/* Bottom tab */}
+      <BottomTabBar active={activeTab} onTab={setActiveTab} />
     </div>
   )
 }

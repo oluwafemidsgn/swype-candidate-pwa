@@ -1,41 +1,18 @@
 export type Screen =
-  | 'splash'
-  | 'signup'
-  | 'profile-setup'
+  | 'welcome'
+  | 'create-account'
+  | 'otp-account'
+  | 'about-you'
   | 'video-record'
+  | 'upload-documents'
   | 'job-feed'
-  | 'job-detail'
-  | 'match'
-  | 'messages'
-  | 'chat'
-  | 'applications'
-  | 'premium'
 
 export type Job = {
   id: string
   company: string
-  title: string
-  location: string
-  salary: string
-  type: string
-  posted: string
   verified: boolean
+  matchPercent: number
+  title: string
+  tags: string[]
   description: string
-  requirements: string[]
-  niceToHave: string[]
-  about: string
-  logoColor: string
-  logoInitial: string
-}
-
-export type Match = {
-  id: string
-  company: string
-  jobTitle: string
-  logoColor: string
-  logoInitial: string
-  lastMessage: string
-  timestamp: string
-  unread: number
-  matchedDate: string
 }
