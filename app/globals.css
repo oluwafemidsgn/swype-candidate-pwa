@@ -2,32 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Charlie Display — local fonts */
+/* Google Sans — local fonts */
 @font-face {
-  font-family: 'Charlie Display';
-  src: url('/fonts/charlie-display-light.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Charlie Display';
-  src: url('/fonts/charlie-display.ttf') format('truetype');
+  font-family: 'Google Sans';
+  src: url('/fonts/GoogleSans_400Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Charlie Display';
-  src: url('/fonts/charlie-display-bold.ttf') format('truetype');
-  font-weight: 700;
+  font-family: 'Google Sans';
+  src: url('/fonts/GoogleSans_500Medium.ttf') format('truetype');
+  font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Charlie Display';
-  src: url('/fonts/charlie-display-3.ttf') format('truetype');
-  font-weight: 900;
+  font-family: 'Google Sans';
+  src: url('/fonts/GoogleSans_600SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Google Sans';
+  src: url('/fonts/GoogleSans_700Bold.ttf') format('truetype');
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
@@ -45,7 +45,7 @@ html, body {
   margin: 0;
   padding: 0;
   background: #f0f0f0;
-  font-family: 'Charlie Display', system-ui, sans-serif;
+  font-family: 'Google Sans', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
