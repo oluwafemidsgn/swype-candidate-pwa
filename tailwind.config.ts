@@ -22,7 +22,7 @@ const config: Config = {
         'border-light': '#e4e4e4',
       },
       fontFamily: {
-        display: ['"Google Sans"', 'system-ui', 'sans-serif'],
+        display: ['"Overused Grotesk"', 'system-ui', 'sans-serif'],
       },
       letterSpacing: {
         tight96: '-0.96px',

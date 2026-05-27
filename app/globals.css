@@ -2,31 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Google Sans — local fonts */
+/* Overused Grotesk — local fonts */
 @font-face {
-  font-family: 'Google Sans';
-  src: url('/fonts/GoogleSans_400Regular.ttf') format('truetype');
+  font-family: 'Overused Grotesk';
+  src: url('/fonts/OverusedGrotesk-Roman.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Google Sans';
-  src: url('/fonts/GoogleSans_500Medium.ttf') format('truetype');
+  font-family: 'Overused Grotesk';
+  src: url('/fonts/OverusedGrotesk-Medium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Google Sans';
-  src: url('/fonts/GoogleSans_600SemiBold.ttf') format('truetype');
+  font-family: 'Overused Grotesk';
+  src: url('/fonts/OverusedGrotesk-SemiBold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Google Sans';
-  src: url('/fonts/GoogleSans_700Bold.ttf') format('truetype');
+  font-family: 'Overused Grotesk';
+  src: url('/fonts/OverusedGrotesk-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -45,7 +45,7 @@ html, body {
   margin: 0;
   padding: 0;
   background: #f0f0f0;
-  font-family: 'Google Sans', system-ui, sans-serif;
+  font-family: 'Overused Grotesk', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
