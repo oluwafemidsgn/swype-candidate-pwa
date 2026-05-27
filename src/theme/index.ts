@@ -8,10 +8,10 @@ export const Colors = {
 };
 
 export const FontFamily = {
-  regular: 'GoogleSans_400Regular',
-  medium: 'GoogleSans_500Medium',
-  semiBold: 'GoogleSans_600SemiBold',
-  bold: 'GoogleSans_700Bold',
-  extraBold: 'GoogleSans_700Bold',
-  black: 'GoogleSans_700Bold',
+  regular: 'OverusedGrotesk-Roman',
+  medium: 'OverusedGrotesk-Medium',
+  semiBold: 'OverusedGrotesk-SemiBold',
+  bold: 'OverusedGrotesk-Bold',
+  extraBold: 'OverusedGrotesk-Bold',
+  black: 'OverusedGrotesk-Bold',
 };
