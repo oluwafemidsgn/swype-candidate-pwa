@@ -168,7 +168,7 @@ function SwipeTab({
   return (
     <div className="flex-1 flex flex-col overflow-hidden" style={{ minHeight: 0 }}>
       {/* Stack label + counter */}
-      <div className="flex items-center justify-between px-5 pt-1 pb-2 flex-shrink-0">
+      <div className="flex items-center justify-between px-5 pt-[2px] pb-1 flex-shrink-0">
         <span className="text-[#969696] text-[12px] tracking-[-0.36px]">
           {remaining > 0 ? `${remaining} job${remaining !== 1 ? 's' : ''} in your feed` : 'No more jobs'}
         </span>
@@ -519,7 +519,7 @@ export default function JobFeedScreen({ go: _go }: { go: (s: Screen) => void }) 
   return (
     <div className="flex flex-col h-full bg-white relative">
       {/* Top bar */}
-      <div className="pt-[40px] flex-shrink-0">
+      <div className="pt-[20px] flex-shrink-0">
         {activeTab === 'swipe' ? (
           <div className="px-5">
             {/* Top row: greeting + icons */}
@@ -550,8 +550,8 @@ export default function JobFeedScreen({ go: _go }: { go: (s: Screen) => void }) 
             </div>
 
             {/* Search bar */}
-            <div className="flex gap-2 mt-2">
-              <div className="flex-1 bg-[#f7f7f7] border border-[#ebebeb] rounded-full flex items-center gap-[8px] px-4 py-[10px]">
+            <div className="flex gap-2 mt-[6px]">
+              <div className="flex-1 bg-[#f7f7f7] border border-[#ebebeb] rounded-full flex items-center gap-[8px] px-4 py-[8px]">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                   <circle cx="11" cy="11" r="8" stroke="#c0c0c0" strokeWidth="2" />
                   <path d="M21 21l-4.35-4.35" stroke="#c0c0c0" strokeWidth="2" strokeLinecap="round" />
@@ -568,12 +568,12 @@ export default function JobFeedScreen({ go: _go }: { go: (s: Screen) => void }) 
             </div>
 
             {/* Category chips */}
-            <div className="flex gap-[7px] mt-2 overflow-x-auto no-scrollbar pb-[2px] -mx-5 px-5">
+            <div className="flex gap-[7px] mt-[6px] overflow-x-auto no-scrollbar pb-[2px] -mx-5 px-5">
               {CATEGORIES.map(cat => (
                 <button
                   key={cat}
                   onClick={() => setCategory(cat)}
-                  className={`flex-shrink-0 px-[14px] py-[6px] rounded-full text-[12px] tracking-[-0.36px] font-normal transition-colors ${
+                  className={`flex-shrink-0 px-[14px] py-[4px] rounded-full text-[12px] tracking-[-0.36px] font-normal transition-colors ${
                     category === cat
                       ? 'bg-brand text-white'
                       : 'bg-[#f7f7f7] border border-[#ebebeb] text-[#606060]'
