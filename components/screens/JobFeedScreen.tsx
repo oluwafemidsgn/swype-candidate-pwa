@@ -519,7 +519,7 @@ export default function JobFeedScreen({ go: _go }: { go: (s: Screen) => void }) 
   return (
     <div className="flex flex-col h-full bg-white relative">
       {/* Top bar */}
-      <div className="pt-[52px] flex-shrink-0">
+      <div className="pt-[40px] flex-shrink-0">
         {activeTab === 'swipe' ? (
           <div className="px-5">
             {/* Top row: greeting + icons */}
@@ -550,7 +550,7 @@ export default function JobFeedScreen({ go: _go }: { go: (s: Screen) => void }) 
             </div>
 
             {/* Search bar */}
-            <div className="flex gap-2 mt-3">
+            <div className="flex gap-2 mt-2">
               <div className="flex-1 bg-[#f7f7f7] border border-[#ebebeb] rounded-full flex items-center gap-[8px] px-4 py-[10px]">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                   <circle cx="11" cy="11" r="8" stroke="#c0c0c0" strokeWidth="2" />
@@ -568,7 +568,7 @@ export default function JobFeedScreen({ go: _go }: { go: (s: Screen) => void }) 
             </div>
 
             {/* Category chips */}
-            <div className="flex gap-[7px] mt-3 overflow-x-auto no-scrollbar pb-[2px] -mx-5 px-5">
+            <div className="flex gap-[7px] mt-2 overflow-x-auto no-scrollbar pb-[2px] -mx-5 px-5">
               {CATEGORIES.map(cat => (
                 <button
                   key={cat}
