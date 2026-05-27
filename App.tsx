@@ -1,20 +1,38 @@
+import { useCallback } from 'react';
+import { View } from 'react-native';
+import { useFonts } from 'expo-font';
+import {
+  GoogleSans_400Regular,
+  GoogleSans_500Medium,
+  GoogleSans_600SemiBold,
+  GoogleSans_700Bold,
+} from '@expo-google-fonts/google-sans';
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import Navigation from './src/navigation';
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    GoogleSans_400Regular,
+    GoogleSans_500Medium,
+    GoogleSans_600SemiBold,
+    GoogleSans_700Bold,
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) return null;
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <StatusBar style="dark" />
+      <Navigation />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
